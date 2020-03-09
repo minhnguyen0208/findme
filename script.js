@@ -42,12 +42,18 @@ function geoFindMe() {
   }
 
   function initMap(latitude =0 ,longitude=0 ) {
-    map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 15
+    var fenway = {lat: latitude, lng: longitude};
+    var map = new google.maps.Map(document.getElementById('map'), {
+      center: fenway,
+      zoom: 14
     });
-    map.setCenter( {lat: latitude, lng: longitude});
-        new google.maps.Marker({
-          map: map,
-          position:  {lat: latitude, lng: longitude}
-    });
+    var panorama = new google.maps.StreetViewPanorama(
+        document.getElementById('pano'), {
+          position: fenway,
+          pov: {
+            heading: 34,
+            pitch: 10
+          }
+        });
+    map.setStreetView(panorama);
   }
