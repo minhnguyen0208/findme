@@ -13,17 +13,27 @@ function geoFindMe() {
       reverseGeocodingWithGoogle(longitude, latitude)
     }
     function error() {
-      alert('You must allow location to view map !!!')
+      // Not allow location 
+      //alert('You must allow location to view map !!!')
+      fetch(`http://ip-api.com/json`)
+      .then( res => res.json())
+      .then(response => {
+          initMap(response.lat,response.lon);
+          console.log("User's Location Info: ", response)
+       })
+       .catch(status => {
+          console.log('Request failed.  Returned status of', status)
+       })
     }
     navigator.geolocation.getCurrentPosition(success, error);
   }
 
-  function reverseGeocodingWithGoogle(latitude, longitude) {
+  function reverseGeocodingWithGoogle(longitude,latitude) {
     var APIKEY = 'AIzaSyC87_S3_JC050DTISg0eYJY16RS4kF4IOM';
-    fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${longitude},${latitude}&key=${APIKEY}`)
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${APIKEY}`)
     .then( res => res.json())
     .then(response => {
-        initMap(longitude,latitude);
+        initMap(latitude,longitude);
         console.log("User's Location Info: ", response)
      })
      .catch(status => {
