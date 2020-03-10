@@ -5,8 +5,13 @@ if(fileInput) {
     fileInput.addEventListener('change', (e) => doSomethingWithFiles(e.target.files));
 }
 
+window.addEventListener('load',function(){
+    if(fileInput) {
+        fileInput.addEventListener('change', (e) => doSomethingWithFiles(e.target.files));
+    }
+});
+
 function doSomethingWithFiles(fileList) {
-    console.log(123);
   let file = null;
 
   for (let i = 0; i < fileList.length; i++) {
@@ -17,39 +22,43 @@ function doSomethingWithFiles(fileList) {
   }
 
   if (file !== null) {
-    output.src = URL.createObjectURL(file);
-    EXIF.getData(this, function() {
-
+    //output.src = URL.createObjectURL(file);
+    EXIF.getData(file, function() {
         myData = this;
-
-        console.log(myData.exifdata);
-
-        var latitude = getLocationImage(myData).lat;
-        var longitude = getLocationImage(myData).lng;
-
-        document.getElementById("latitude").innerHTML = 'Latitude : '+latitude;
-        document.getElementById("longitude").innerHTML = 'Longitude : '+longitude;
+        //console.log(myData.exifdata);
+        if(getLocationImage(myData).lat > 0 && getLocationImage(myData).lng > 0) {
+            var latitude = getLocationImage(myData).lat;
+            var longitude = getLocationImage(myData).lng;
+    
+            document.getElementById("latitude").innerHTML = 'Latitude : '+latitude;
+            document.getElementById("longitude").innerHTML = 'Longitude : '+longitude;
+        }else {
+            alert('Not found location');
+        }
     });
   }
 }
 
 function getLocationImage(data) {
+    var position ={lat: 0, lng: 0};
     // Calculate latitude decimal
-    var latDegree = data.exifdata.GPSLatitude[0].numerator;
-    var latMinute = data.exifdata.GPSLatitude[1].numerator;
-    var latSecond = data.exifdata.GPSLatitude[2].numerator;
-    var latDirection = data.exifdata.GPSLatitudeRef;
-
-    var latFinal = ConvertDMSToDD(latDegree, latMinute, latSecond, latDirection);
-
-    // Calculate longitude decimal
-    var lonDegree = data.exifdata.GPSLongitude[0].numerator;
-    var lonMinute = data.exifdata.GPSLongitude[1].numerator;
-    var lonSecond = data.exifdata.GPSLongitude[2].numerator;
-    var lonDirection = data.exifdata.GPSLongitudeRef;
-
-    var lonFinal = ConvertDMSToDD(lonDegree, lonMinute, lonSecond, lonDirection);
-    var position ={lat: latFinal, lng: lonFinal};
+    if(data.exifdata.length > 0) {
+        var latDegree = data.exifdata.GPSLatitude[0].numerator;
+        var latMinute = data.exifdata.GPSLatitude[1].numerator;
+        var latSecond = data.exifdata.GPSLatitude[2].numerator;
+        var latDirection = data.exifdata.GPSLatitudeRef;
+    
+        var latFinal = ConvertDMSToDD(latDegree, latMinute, latSecond, latDirection);
+    
+        // Calculate longitude decimal
+        var lonDegree = data.exifdata.GPSLongitude[0].numerator;
+        var lonMinute = data.exifdata.GPSLongitude[1].numerator;
+        var lonSecond = data.exifdata.GPSLongitude[2].numerator;
+        var lonDirection = data.exifdata.GPSLongitudeRef;
+    
+        var lonFinal = ConvertDMSToDD(lonDegree, lonMinute, lonSecond, lonDirection);
+        var position ={lat: latFinal, lng: lonFinal};
+    }
     return position;
 }
 

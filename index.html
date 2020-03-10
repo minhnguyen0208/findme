@@ -30,15 +30,15 @@
 
             <div id="map"></div>
 
-            <input type="file" accept="image/*">
+            <input type="file" accept="image/*" onchange="doSomethingWithFiles(this.files)">
           
             <img id="output">
         </div>
     </div>
     <script src="script.js"></script>
-    <script src="image.js"></script>
     <script src="exif.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC87_S3_JC050DTISg0eYJY16RS4kF4IOM&callback=initMap&region=VN&libraries=places" async defer></script>
+    <script src="image.js"></script>
 </body>
 
 </html>
