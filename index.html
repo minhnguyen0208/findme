@@ -1,25 +1,44 @@
 <!DOCTYPE html>
-    <html>
-        <head>
-            <title>Find ID</title>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-            <script src="script.js"></script>
-            <link rel="stylesheet" type="text/css" href="style.css">
-        </head>
-   
-    <body onload="geoFindMe()">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <h1>Location</h1>
-    <div>
-        <p id="latitude"></p>
-        <p id="longitude"></p>
+    <title>FIND iD</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+
+    <!-- Styles -->
+    <link href="style.css" rel="stylesheet">
+</head>
+
+<body onload="geoFindMe()">
+    <div class="flex-center position-ref full-height">
+        <div class="content">
+            <div class="title m-b-md">
+                Location
+            </div>
+
+            <div class="links">
+                <a id="latitude"></a>
+                <a id="longitude"></a>
+            </div>
+
+            <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+
+            <div id="map"></div>
+
+            <input type="file" accept="image/*">
+          
+            <img id="output">
+        </div>
     </div>
-    <div id="map"></div>
-    <div id="pano"></div>
-    <script>
-     
-    </script>
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC87_S3_JC050DTISg0eYJY16RS4kF4IOM&callback=initMap&region=VN"
-      async defer></script>
-    </body>
+    <script src="script.js"></script>
+    <script src="image.js"></script>
+    <script src="exif.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC87_S3_JC050DTISg0eYJY16RS4kF4IOM&callback=initMap&region=VN&libraries=places" async defer></script>
+</body>
+
 </html>
